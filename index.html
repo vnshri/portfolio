@@ -725,128 +725,111 @@
       100% { opacity: 1; transform: translateY(0); }
     }
 
-    /* ===== ABOUT SECTION ===== */
+    /* ===== REDESIGNED ABOUT SECTION (GLASS HUD CARD) ===== */
     #about {
       position: relative;
       overflow: hidden;
-      width: 100%;
-      height: 100vh;
-      padding: 0;
-      perspective: 1200px;
     }
 
-    .about-mosaic-grid {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      height: 80vh;
-      aspect-ratio: 9 / 16;
-      max-width: 95vw;
-      z-index: 1;
-      pointer-events: none;
-      transition: outline 0.3s ease;
-    }
-
-    body.blueprint-mode .about-mosaic-grid {
-      outline: 1px dashed rgba(96, 165, 250, 0.5);
-      outline-offset: 10px;
-    }
-
-    .mosaic-tile {
-      position: absolute;
-      background-image: url('vn2.png');
-      background-repeat: no-repeat;
-      opacity: 0;
-      transform: scale(0.6);
-      filter: brightness(0.6);
-    }
-
-    @keyframes mosaicTileLoop {
-      0% { opacity: 0; transform: scale(0.6); }
-      20% { opacity: 1; transform: scale(1); }
-      80% { opacity: 1; transform: scale(1); }
-      100% { opacity: 0; transform: scale(0.6); }
-    }
-
-    #about.active .mosaic-tile {
-      animation: mosaicTileLoop 15s ease-in-out infinite;
-    }
-
-    .about-ambient-glow {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 550px;
-      height: 350px;
-      background: radial-gradient(ellipse at center, rgba(167, 139, 250, 0.18) 0%, rgba(96, 165, 250, 0.08) 40%, transparent 75%);
-      filter: blur(60px);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    #about .about-content-wrapper {
-      position: relative;
-      z-index: 2;
-      width: 100%;
-      max-width: 1400px;
-      height: 100%;
+    .about-hud-card {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 3rem;
+      align-items: center;
+      max-width: 1080px;
       margin: 0 auto;
-      pointer-events: none;
+      background: rgba(15, 15, 25, 0.68);
+      border: 1px solid rgba(167, 139, 250, 0.22);
+      border-radius: 2rem;
+      padding: 2.8rem 3rem;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.65), 0 0 40px rgba(167, 139, 250, 0.08);
+      position: relative;
     }
 
-    .about-block-top-left {
-      position: absolute;
-      top: 15%;
-      left: 3.5rem;
-      max-width: 320px;
-      text-align: left;
-      pointer-events: auto;
-      margin-top: 50px;
+    body.blueprint-mode .about-hud-card,
+    body.blueprint-mode .resume-hud-card {
+      border: 1px solid rgba(96, 165, 250, 0.45) !important;
+      background: rgba(15, 23, 42, 0.65) !important;
+      box-shadow: 0 0 25px rgba(96, 165, 250, 0.18) !important;
     }
 
-    .about-block-bottom-right {
+    .about-photo-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      border-radius: 1.4rem;
+      overflow: hidden;
+      border: 1px solid rgba(167, 139, 250, 0.35);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), 0 0 25px rgba(167, 139, 250, 0.15);
+      background: #0b0b14;
+    }
+
+    .about-photo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .about-photo-wrap:hover img {
+      transform: scale(1.04);
+    }
+
+    .about-photo-badge {
       position: absolute;
-      bottom: 15%;
-      right: 3.5rem;
-      max-width: 340px;
-      text-align: right;
+      bottom: 12px;
+      left: 12px;
+      right: 12px;
+      background: rgba(5, 5, 12, 0.78);
+      border: 1px solid rgba(167, 139, 250, 0.3);
+      backdrop-filter: blur(10px);
+      padding: 0.5rem 0.85rem;
+      border-radius: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .about-photo-badge span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      color: #4ade80;
+    }
+
+    .about-info-col {
       display: flex;
       flex-direction: column;
-      align-items: flex-end;
-      pointer-events: auto;
+      align-items: flex-start;
+      text-align: left;
     }
 
-    #about h2,
-    #about .about-text-lead,
-    #about .about-text-sub,
-    #about .resume-btn {
-      opacity: 0;
-      transform: translateY(30px) scale(0.9);
-      transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-      will-change: opacity, transform;
+    .about-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: #60a5fa;
+      background: rgba(96, 165, 250, 0.1);
+      border: 1px solid rgba(96, 165, 250, 0.25);
+      padding: 0.28rem 0.75rem;
+      border-radius: 6px;
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
     }
-
-    #about.active h2,
-    #about.active .about-text-lead,
-    #about.active .about-text-sub,
-    #about.active .resume-btn {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-
-    #about.active h2 { transition-delay: 0.15s; }
-    #about.active .about-text-lead { transition-delay: 0.3s; }
-    #about.active .about-text-sub { transition-delay: 0.45s; }
-    #about.active .resume-btn { transition-delay: 0.6s; }
 
     #about h2 {
-      font-size: clamp(2.2rem, 3.8vw, 3.2rem);
+      font-size: clamp(2.1rem, 3.8vw, 3rem);
       font-weight: 800;
-      margin-bottom: 0.6rem;
+      margin-bottom: 1rem;
       color: #ffffff;
       letter-spacing: -0.03em;
+      line-height: 1.1;
     }
 
     #about h2 .highlight {
@@ -854,15 +837,14 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      filter: drop-shadow(0 0 25px rgba(167, 139, 250, 0.4));
     }
 
     .about-text-lead {
-      font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+      font-size: 1.05rem;
       color: #f3f4f6;
-      line-height: 1.45;
-      font-weight: 600;
-      letter-spacing: -0.01em;
+      line-height: 1.65;
+      font-weight: 500;
+      margin-bottom: 0.85rem;
     }
 
     .about-text-lead .glow-word {
@@ -874,36 +856,71 @@
     }
 
     .about-text-sub {
-      font-size: clamp(0.85rem, 1.3vw, 0.98rem);
+      font-size: 0.92rem;
       color: #9ca3af;
-      line-height: 1.5;
+      line-height: 1.7;
       font-weight: 400;
-      margin-bottom: 1.2rem;
+      margin-bottom: 1.6rem;
+    }
+
+    .about-highlights {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.9rem;
+      width: 100%;
+      margin-bottom: 1.8rem;
+    }
+
+    .about-stat-box {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 0.85rem 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .about-stat-box:hover {
+      border-color: rgba(167, 139, 250, 0.4);
+      background: rgba(167, 139, 250, 0.08);
+      transform: translateY(-2px);
+    }
+
+    .about-stat-val {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 0.2rem;
+    }
+
+    .about-stat-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
     }
 
     .resume-btn {
       display: inline-flex;
       align-items: center;
-      gap: 0.6rem;
-      padding: 0.75rem 1.9rem;
-      border: 1px solid rgba(167, 139, 250, 0.4);
+      gap: 0.65rem;
+      padding: 0.85rem 2.1rem;
+      border: 1px solid rgba(167, 139, 250, 0.45);
       border-radius: 40px;
       color: #ffffff;
       text-decoration: none;
       font-weight: 600;
-      font-size: 0.85rem;
-      background: rgba(167, 139, 250, 0.08);
+      font-size: 0.88rem;
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.25), rgba(37, 99, 235, 0.25));
       backdrop-filter: blur(12px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-      transition: background 0.35s ease, border-color 0.35s ease, color 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, transform 0.2s ease;
       will-change: transform;
     }
 
     .resume-btn:hover {
-      background: rgba(167, 139, 250, 0.22);
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.45), rgba(37, 99, 235, 0.45));
       border-color: #a78bfa;
-      color: #ffffff;
-      transform: translateY(-3px) scale(1.02);
       box-shadow: 0 15px 35px rgba(167, 139, 250, 0.35);
     }
 
@@ -1101,8 +1118,8 @@
       color: #60a5fa;
     }
 
-    /* ===== EXPERIENCE SECTION (SPLIT HUD TERMINAL) ===== */
-    #experience h2 {
+    /* ===== EDUCATION & CERTIFICATIONS SECTION (SPLIT HUD TERMINAL) ===== */
+    #education h2 {
       font-size: clamp(2.2rem, 4vw, 3.2rem);
       font-weight: 800;
       text-align: center;
@@ -1111,11 +1128,11 @@
       transform: translateY(-30px);
       transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    #experience.active h2 {
+    #education.active h2 {
       opacity: 1;
       transform: translateY(0);
     }
-    #experience h2 .highlight {
+    #education h2 .highlight {
       background: linear-gradient(135deg, #a78bfa, #60a5fa);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -1141,7 +1158,7 @@
       transition: opacity 0.8s ease, transform 0.8s ease;
     }
 
-    #experience.active .exp-blueprint-panel {
+    #education.active .exp-blueprint-panel {
       opacity: 1;
       transform: translateY(0);
     }
@@ -1508,13 +1525,6 @@
       transform: scale(1.04);
       box-shadow: 0 8px 30px rgba(99, 102, 241, 0.5);
     }
-    .btn-project.disabled {
-      background: rgba(255, 255, 255, 0.08);
-      color: #6b7280;
-      box-shadow: none;
-      cursor: default;
-      pointer-events: none;
-    }
     .card-drop-inner .meta {
       margin-top: 0.5rem;
       padding-top: 0.6rem;
@@ -1553,6 +1563,109 @@
       height: 100%;
       border-radius: 4px;
       background: linear-gradient(90deg, #a78bfa, #60a5fa);
+    }
+
+    /* ===== RESUME SECTION ===== */
+    #resume h2 {
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    #resume h2 .highlight {
+      background: linear-gradient(135deg, #a78bfa, #60a5fa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .resume-hud-card {
+      max-width: 960px;
+      margin: 0 auto;
+      background: rgba(15, 15, 25, 0.7);
+      border: 1px solid rgba(167, 139, 250, 0.25);
+      border-radius: 2rem;
+      padding: 2.8rem 3rem;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.65), 0 0 40px rgba(167, 139, 250, 0.08);
+      position: relative;
+      text-align: center;
+    }
+
+    .resume-hud-top {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .resume-doc-icon {
+      width: 68px;
+      height: 68px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.25), rgba(37, 99, 235, 0.25));
+      border: 1px solid rgba(167, 139, 250, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      color: #a78bfa;
+      margin-bottom: 1.2rem;
+      box-shadow: 0 10px 25px rgba(124, 58, 237, 0.2);
+    }
+
+    .resume-hud-sub {
+      color: #9ca3af;
+      font-size: 0.95rem;
+      max-width: 620px;
+      line-height: 1.6;
+    }
+
+    .resume-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-bottom: 2.2rem;
+      text-align: left;
+    }
+
+    .resume-summary-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 1rem 1.1rem;
+      transition: all 0.3s ease;
+    }
+
+    .resume-summary-item:hover {
+      border-color: rgba(96, 165, 250, 0.45);
+      background: rgba(96, 165, 250, 0.07);
+      transform: translateY(-3px);
+    }
+
+    .resume-item-k {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: #60a5fa;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.35rem;
+    }
+
+    .resume-item-v {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.35;
+    }
+
+    .resume-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.2rem;
+      flex-wrap: wrap;
     }
 
     /* ===== CONTACT ===== */
@@ -1731,10 +1844,10 @@
     }
     .footer-nav-bar a.active {
       color: #ffffff;
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       font-weight: 800;
       letter-spacing: 0.08em;
-      padding: 0 1.5rem;
+      padding: 0 1.4rem;
     }
 
     /* ===== CONTACT MODAL ===== */
@@ -1896,9 +2009,33 @@
         padding-right: 0;
         padding-bottom: 1.5rem;
       }
+      .about-hud-card {
+        grid-template-columns: 240px 1fr;
+        gap: 2rem;
+        padding: 2rem;
+      }
+      .resume-summary-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
 
     @media (max-width: 900px) {
+      .about-hud-card {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding: 1.8rem;
+      }
+      .about-photo-wrap {
+        max-width: 210px;
+        margin: 0 auto;
+      }
+      .about-info-col {
+        align-items: center;
+        text-align: center;
+      }
+      .about-highlights {
+        grid-template-columns: 1fr;
+      }
       .card-drop-inner {
         grid-template-columns: 1fr;
         text-align: center;
@@ -1923,6 +2060,8 @@
       .hero-aura-ring { width: 340px; height: 340px; }
       .hero-ctas { flex-direction: column; gap: 0.8rem; }
       .btn-primary-glow, .btn-secondary-glass { width: 100%; justify-content: center; }
+      .resume-summary-grid { grid-template-columns: 1fr; }
+      .resume-hud-card { padding: 1.8rem 1.4rem; }
       .footer-nav-bar { padding: 0.8rem 1rem; overflow-x: auto; }
       .footer-nav-bar a { font-size: 0.6rem; padding: 0 0.5rem; }
       .footer-nav-bar a.active { font-size: 0.95rem; padding: 0 0.8rem; }
@@ -1993,7 +2132,7 @@
     <!-- SLIDE 0: HOME -->
     <section class="section-slide active" id="home" data-index="0">
       <div class="floating-tech-tags">
-        <span class="tech-badge badge-1"><i class="fab fa-java" style="color: #f89820;"></i> Java 8</span>
+        <span class="tech-badge badge-1"><i class="fab fa-java" style="color: #f89820;"></i> Java 17</span>
         <span class="tech-badge badge-2"><i class="fas fa-leaf" style="color: #6db33f;"></i> Spring Boot</span>
         <span class="tech-badge badge-3"><i class="fas fa-cubes" style="color: #60a5fa;"></i> Microservices</span>
         <span class="tech-badge badge-4"><i class="fas fa-stream" style="color: #a78bfa;"></i> Apache Kafka</span>
@@ -2003,7 +2142,7 @@
 
       <div class="section-inner">
         <div class="status-pill">
-          <span class="status-dot"></span> Open to Backend & Full-Stack Opportunities
+          <span class="status-dot"></span> Open to Java Backend &amp; Software Engineer Roles
         </div>
 
         <h1 id="heroTitle">Vanashri<br /><span class="highlight">Deshpande</span></h1>
@@ -2016,8 +2155,8 @@
           <a href="#projects" class="btn-primary-glow" onclick="goToSlide(4)">
             View Projects <i class="fas fa-arrow-right"></i>
           </a>
-          <a href="#contact" class="btn-secondary-glass" onclick="goToSlide(5)">
-            Get In Touch
+          <a href="#resume" class="btn-secondary-glass" onclick="goToSlide(5)">
+            <i class="fas fa-file-alt"></i> Résumé
           </a>
         </div>
 
@@ -2027,29 +2166,61 @@
 
     <!-- SLIDE 1: ABOUT -->
     <section class="section-slide" id="about" data-index="1">
-      <div class="about-mosaic-grid" id="mosaicGrid"></div>
-      <div class="about-ambient-glow" id="aboutGlow"></div>
+      <div class="section-inner">
+        <div class="about-hud-card">
+          <div class="blueprint-corner corner-tl"></div>
+          <div class="blueprint-corner corner-tr"></div>
+          <div class="blueprint-corner corner-bl"></div>
+          <div class="blueprint-corner corner-br"></div>
 
-      <div class="about-content-wrapper">
-        <div class="about-block-top-left">
-          <h2>About <span class="highlight">Me</span></h2>
-          <p class="about-text-lead">
-            Java Backend Engineer crafting <span class="glow-word">REST APIs</span> &amp; <span class="glow-word">Microservices</span>.
-          </p>
-        </div>
+          <!-- LEFT: PORTRAIT -->
+          <div class="about-photo-wrap">
+            <img src="vn2.png" alt="Vanashri Deshpande" />
+            <div class="about-photo-badge">
+  <span><i class="fas fa-circle" style="font-size: 0.45rem;"></i> OPEN TO WORK</span>
+  <div>PUNE / BLR / Mum</div>
+</div>
+          </div>
 
-        <div class="about-block-bottom-right">
-          <p class="about-text-sub">
-            Passionate about clean code, high performance, and scalable architecture.
-          </p>
-          <a class="resume-btn" id="magneticResumeBtn" href="Vanashri_Deshpande_Resume.pdf" target="_blank">
-            <span>View Résumé</span> <i class="fas fa-arrow-up-right-from-square" style="font-size: 0.75rem;"></i>
-          </a>
+          
+
+          <!-- RIGHT: BIO & HIGHLIGHTS -->
+          <div class="about-info-col">
+            <span class="about-eyebrow">PROFILE // BACKEND ENGINEER</span>
+            <h2>About <span class="highlight">Me</span></h2>
+
+            <p class="about-text-lead">
+              I'm a Java Backend Developer focused on building scalable <span class="glow-word">REST APIs</span>, <span class="glow-word">Microservices</span>, and secure database-driven web applications.
+            </p>
+
+            <p class="about-text-sub">
+              With a B.E. in Electronics &amp; Communication Engineering and hands-on Java Full-Stack training, I enjoy turning complex business logic into clean, maintainable backend systems using Spring Boot, Spring Security, Hibernate/JPA, MySQL, and Apache Kafka.
+            </p>
+
+            <div class="about-highlights">
+              <div class="about-stat-box">
+                <div class="about-stat-val">8.0 CGPA</div>
+                <div class="about-stat-label">B.E. · Top 3%</div>
+              </div>
+              <div class="about-stat-box">
+                <div class="about-stat-val">Java 17</div>
+                <div class="about-stat-label">Spring Boot Stack</div>
+              </div>
+              <div class="about-stat-box">
+                <div class="about-stat-val">Immediate</div>
+                <div class="about-stat-label">Ready to Join</div>
+              </div>
+            </div>
+
+            <a class="resume-btn" id="magneticResumeBtn" href="Vanashri_Deshpande_Resume.pdf" target="_blank">
+              <span>View Résumé</span> <i class="fas fa-arrow-up-right-from-square" style="font-size: 0.78rem;"></i>
+            </a>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- SLIDE 2: UPGRADED SKILLS -->
+    <!-- SLIDE 2: SKILLS -->
     <section class="section-slide" id="skills" data-index="2">
       <div class="section-inner">
         <h2>Technical <span class="highlight">Proficiency</span></h2>
@@ -2071,16 +2242,16 @@
             
             <div class="skill-tags-wrapper">
               <span class="skill-pill"><i class="fab fa-java"></i> Core Java</span>
-              <span class="skill-pill"><i class="fab fa-java"></i> Java 8</span>
+              <span class="skill-pill"><i class="fab fa-java"></i> Java 8 / 17</span>
               <span class="skill-pill"><i class="fas fa-leaf"></i> Spring Boot</span>
+              <span class="skill-pill"><i class="fas fa-shield-alt"></i> Spring Security</span>
               <span class="skill-pill"><i class="fas fa-cubes"></i> Microservices</span>
               <span class="skill-pill"><i class="fas fa-network-wired"></i> REST API</span>
-              <span class="skill-pill"><i class="fas fa-database"></i> Hibernate</span>
-              <span class="skill-pill"><i class="fas fa-layer-group"></i> Spring Data JPA</span>
+              <span class="skill-pill"><i class="fas fa-database"></i> Hibernate / JPA</span>
             </div>
           </div>
 
-          <!-- CARD 2: TESTING & QA -->
+          <!-- CARD 2: TESTING & DEVOPS -->
           <div class="skill-card">
             <div class="blueprint-corner corner-tl"></div>
             <div class="blueprint-corner corner-tr"></div>
@@ -2088,18 +2259,18 @@
             <div class="blueprint-corner corner-br"></div>
             
             <div class="skill-card-header">
-              <span class="skill-module-tag">MOD.02 // QA</span>
+              <span class="skill-module-tag">MOD.02 // QUALITY</span>
               <div class="skill-icon-glow"><i class="fas fa-vial"></i></div>
             </div>
             
-            <h3>Testing & QA</h3>
+            <h3>Testing &amp; DevOps</h3>
             
             <div class="skill-tags-wrapper">
-              <span class="skill-pill"><i class="fas fa-check-double"></i> JUnit</span>
+              <span class="skill-pill"><i class="fas fa-check-double"></i> JUnit 5</span>
               <span class="skill-pill"><i class="fas fa-ghost"></i> Mockito</span>
+              <span class="skill-pill"><i class="fab fa-docker"></i> Docker</span>
               <span class="skill-pill"><i class="fas fa-paper-plane"></i> Postman</span>
-              <span class="skill-pill"><i class="fas fa-bug"></i> Manual Testing</span>
-              <span class="skill-pill"><i class="fas fa-terminal"></i> Debugging</span>
+              <span class="skill-pill"><i class="fas fa-box"></i> Maven</span>
             </div>
           </div>
 
@@ -2115,7 +2286,7 @@
               <div class="skill-icon-glow"><i class="fas fa-laptop-code"></i></div>
             </div>
             
-            <h3>Frontend & Web</h3>
+            <h3>Frontend &amp; Web</h3>
             
             <div class="skill-tags-wrapper">
               <span class="skill-pill"><i class="fab fa-html5"></i> HTML5</span>
@@ -2127,7 +2298,7 @@
             </div>
           </div>
 
-          <!-- CARD 4: DATABASES & TOOLS -->
+          <!-- CARD 4: DATABASES & MESSAGING -->
           <div class="skill-card">
             <div class="blueprint-corner corner-tl"></div>
             <div class="blueprint-corner corner-tr"></div>
@@ -2139,12 +2310,13 @@
               <div class="skill-icon-glow"><i class="fas fa-database"></i></div>
             </div>
             
-            <h3>Databases & Tools</h3>
+            <h3>Databases &amp; Tools</h3>
             
             <div class="skill-tags-wrapper">
               <span class="skill-pill"><i class="fas fa-database"></i> MySQL</span>
               <span class="skill-pill"><i class="fas fa-code"></i> SQL</span>
               <span class="skill-pill"><i class="fas fa-stream"></i> Apache Kafka</span>
+              <span class="skill-pill"><i class="fas fa-envelope-open-text"></i> RabbitMQ</span>
               <span class="skill-pill"><i class="fab fa-git-alt"></i> Git / GitHub</span>
               <span class="skill-pill"><i class="fas fa-file-code"></i> IntelliJ IDEA</span>
             </div>
@@ -2154,10 +2326,10 @@
       </div>
     </section>
 
-    <!-- SLIDE 3: REDESIGNED SPLIT BLUEPRINT EXPERIENCE -->
-    <section class="section-slide" id="experience" data-index="3">
+    <!-- SLIDE 3: EDUCATION & CERTIFICATIONS -->
+    <section class="section-slide" id="education" data-index="3">
       <div class="section-inner">
-        <h2>Professional <span class="highlight">Experience</span></h2>
+        <h2>Education &amp; <span class="highlight">Certifications</span></h2>
         
         <div class="exp-blueprint-panel">
           <div class="blueprint-corner corner-tl"></div>
@@ -2165,37 +2337,38 @@
           <div class="blueprint-corner corner-bl"></div>
           <div class="blueprint-corner corner-br"></div>
 
-          <!-- LEFT COLUMN: STATUS & TELEMETRY -->
+          <!-- LEFT COLUMN: DEGREE & ACADEMIC TELEMETRY -->
           <div class="exp-telemetry-side">
             <div>
               <div class="exp-role-badge">
-                <i class="fas fa-circle"></i> ROLE // JAVA DEVELOPER
+                <i class="fas fa-circle"></i> DEGREE // B.E. (ECE)
               </div>
-              <div class="exp-company-title">Fourise Software Solutions</div>
-              <div class="exp-org-name">Pvt. Ltd., Pune</div>
+              <div class="exp-company-title">VSM's SRKIT, Nipani</div>
+              <div class="exp-org-name">Visvesvaraya Technological University (VTU)</div>
             </div>
 
             <div>
               <div class="exp-meta-list">
-                <span><i class="far fa-calendar-alt" style="color: #60a5fa;"></i> Mar 2024 – May 2026</span>
-                <span><i class="fas fa-map-marker-alt" style="color: #a78bfa;"></i> Pune, Maharashtra, India</span>
-                <span><i class="fas fa-server" style="color: #34d399;"></i> Backend & API Microservices</span>
+                <span><i class="far fa-calendar-alt" style="color: #60a5fa;"></i> Graduated: 2022</span>
+                <span><i class="fas fa-award" style="color: #a78bfa;"></i> 8.0 CGPA · Top 3% of Class</span>
+                <span><i class="fas fa-map-marker-alt" style="color: #34d399;"></i> Belagavi, Karnataka</span>
               </div>
 
               <div class="exp-stack-tags">
-                <span>Java 8</span>
+                <span>Core Java</span>
                 <span>Spring Boot</span>
-                <span>REST API</span>
-                <span>Hibernate</span>
-                <span>Kafka</span>
+                <span>DSA</span>
+                <span>OOP</span>
                 <span>MySQL</span>
+                <span>REST APIs</span>
               </div>
             </div>
           </div>
 
-          <!-- RIGHT COLUMN: TERMINAL LOG HIGHLIGHTS -->
+          <!-- RIGHT COLUMN: CERTIFICATIONS & TRAINING LOG -->
           <div class="exp-terminal-side">
             <div class="terminal-header">
+              <span>CREDENTIALS // TRAINING &amp; FOUNDATIONS</span>
               <div class="terminal-dots">
                 <span class="dot-red"></span>
                 <span class="dot-yellow"></span>
@@ -2204,12 +2377,11 @@
             </div>
 
             <ul class="exp-terminal-bullets">
-              <li>Contributed to the development of enterprise backend services using <strong>Java</strong> and <strong>Spring Boot</strong> while collaborating with cross-functional development teams.</li>
-              <li>Designed and implemented <strong>RESTful APIs</strong> following <strong>Controller-Service-Repository architecture</strong> for business workflows with proper validation and exception handling.</li>
-              <li>Worked on <strong>Hibernate/JPA-based</strong> persistence by implementing entity mappings, repository operations, and database interactions.</li>
-              <li>Optimized <strong>SQL queries</strong>, database schemas, and indexing strategies to improve application performance and maintain data consistency.</li>
-              <li>Integrated asynchronous communication using <strong>Kafka</strong> and <strong>RabbitMQ</strong> to support reliable message processing between application components.</li>
-              <li>Assisted in debugging production issues by analyzing logs, identifying root causes, and implementing fixes with the development team.</li>
+              <li><strong>Java Full Stack Development Certification:</strong> Completed intensive hands-on training in Core Java (8/17), Spring Boot, Spring Security, Hibernate/JPA, RESTful APIs, and Microservices.</li>
+              <li><strong>Web Development Internship:</strong> Built responsive front-end interfaces and integrated backend workflows using HTML5, CSS3, JavaScript, and Bootstrap.</li>
+              <li><strong>Data Structures &amp; Algorithms:</strong> Regular problem-solving practice in Java covering Arrays, Strings, HashMaps, Recursion, and Backtracking.</li>
+              <li><strong>Backend Architecture Focus:</strong> Experienced in Controller-Service-Repository design, JWT authentication, MySQL schema design, and asynchronous messaging with Kafka &amp; RabbitMQ.</li>
+              <li><strong>Testing &amp; Tooling:</strong> Proficient with JUnit 5, Mockito, Postman API testing, Maven, Docker, and Git/GitHub version control.</li>
             </ul>
           </div>
 
@@ -2242,7 +2414,7 @@
               <div class="tags"><span>Web App</span><span>Payments</span><span>Full-Stack</span><span>Auth</span></div>
               <div class="desc">A web-based payment management solution allowing users to generate and track secure payment links. Implemented authentication, role-based access, and real-time transaction updates.</div>
               <div class="btn-wrap"><a class="btn-project" href="https://vnshri.github.io/paylink-app/" target="_blank">Visit Site →</a></div>
-              <div class="meta"><span><i class="fas fa-calendar-alt"></i> Recent</span><span><i class="fas fa-code"></i> Java · Spring Boot · React</span><span><i class="fas fa-check-circle" style="color:#22c55e;"></i> Deployed</span></div>
+              <div class="meta"><span><i class="fas fa-calendar-alt"></i> Recent</span><span><i class="fas fa-code"></i> Java · Spring Boot · MySQL</span><span><i class="fas fa-check-circle" style="color:#22c55e;"></i> Deployed</span></div>
               <div class="progress-wrap"><span class="label">Completion</span><div class="progress-bar"><div class="fill" style="width:100%;"></div></div><span style="font-size:0.7rem; color:#9ca3af;">100%</span></div>
             </div>
           </div>
@@ -2261,7 +2433,7 @@
               <div class="tags"><span>Full-Stack</span><span>CRUD</span><span>RBAC</span><span>REST API</span></div>
               <div class="desc">A platform for submitting and managing complaints with user authentication and role-based access. Includes status tracking, input validation, and database operations.</div>
               <div class="btn-wrap"><a class="btn-project" href="https://vnshri.github.io/cms-app/" target="_blank">Visit Site →</a></div>
-              <div class="meta"><span><i class="fas fa-calendar-alt"></i> Recent</span><span><i class="fas fa-code"></i> Java · Spring · MySQL</span><span><i class="fas fa-check-circle" style="color:#22c55e;"></i> Deployed</span></div>
+              <div class="meta"><span><i class="fas fa-calendar-alt"></i> Recent</span><span><i class="fas fa-code"></i> Java · Spring Boot · MySQL</span><span><i class="fas fa-check-circle" style="color:#22c55e;"></i> Deployed</span></div>
               <div class="progress-wrap"><span class="label">Completion</span><div class="progress-bar"><div class="fill" style="width:100%;"></div></div><span style="font-size:0.7rem; color:#9ca3af;">100%</span></div>
             </div>
           </div>
@@ -2308,8 +2480,60 @@
       </div>
     </section>
 
-    <!-- SLIDE 5: CONTACT -->
-    <section class="section-slide" id="contact" data-index="5">
+    <!-- SLIDE 5: RESUME -->
+    <section class="section-slide" id="resume" data-index="5">
+      <div class="section-inner">
+        <h2>My <span class="highlight">Résumé</span></h2>
+
+        <div class="resume-hud-card">
+          <div class="blueprint-corner corner-tl"></div>
+          <div class="blueprint-corner corner-tr"></div>
+          <div class="blueprint-corner corner-bl"></div>
+          <div class="blueprint-corner corner-br"></div>
+
+          <div class="resume-hud-top">
+            <div class="resume-doc-icon">
+              <i class="fas fa-file-pdf"></i>
+            </div>
+            <span class="about-eyebrow">DOCUMENT // ATS-FRIENDLY CV</span>
+            <p class="resume-hud-sub">
+              Get a complete overview of my technical skills, deployed Spring Boot projects, academic background, and certifications in a single-page PDF.
+            </p>
+          </div>
+
+          <div class="resume-summary-grid">
+            <div class="resume-summary-item">
+              <div class="resume-item-k">Target Role</div>
+              <div class="resume-item-v">Java Backend Developer</div>
+            </div>
+            <div class="resume-summary-item">
+              <div class="resume-item-k">Core Stack</div>
+              <div class="resume-item-v">Java 17 · Spring Boot · MySQL</div>
+            </div>
+            <div class="resume-summary-item">
+              <div class="resume-item-k">Education</div>
+              <div class="resume-item-v">B.E. (ECE) · 8.0 CGPA</div>
+            </div>
+            <div class="resume-summary-item">
+              <div class="resume-item-k">Availability</div>
+              <div class="resume-item-v">Immediate · Pune / BLR</div>
+            </div>
+          </div>
+
+          <div class="resume-actions">
+            <a class="btn-primary-glow" href="Vanashri_Deshpande_Resume.pdf" target="_blank">
+              <i class="fas fa-eye"></i> View Résumé
+            </a>
+            <a class="btn-secondary-glass" href="Vanashri_Deshpande_Resume.pdf" download="Vanashri_Deshpande_Resume.pdf">
+              <i class="fas fa-download"></i> Download PDF
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 6: CONTACT -->
+    <section class="section-slide" id="contact" data-index="6">
       <div class="contact-sticky-container">
         <div class="section-inner">
           <h2>Let's Build Something<br />Great Together</h2>
@@ -2343,12 +2567,12 @@
 
       <div class="contact-links">
         <!-- EMAIL -->
-        <a class="contact-card" href="mailto:vnshri03@gmail.com">
+        <a class="contact-card" href="mailto:vanashrii03@gmail.com">
           <div class="contact-card-info">
             <i class="fas fa-envelope"></i>
-            <span>vnshri03@gmail.com</span>
+            <span>vanashrii03@gmail.com</span>
           </div>
-          <button type="button" class="contact-action-btn" onclick="copyContactText(event, 'vnshri03@gmail.com')">
+          <button type="button" class="contact-action-btn" onclick="copyContactText(event, 'vanashrii03@gmail.com')">
             <i class="far fa-copy"></i> Copy
           </button>
         </a>
@@ -2390,9 +2614,10 @@
     <a class="active" data-slide="0">Home</a>
     <a data-slide="1">About</a>
     <a data-slide="2">Skills</a>
-    <a data-slide="3">Experience</a>
+    <a data-slide="3">Education</a>
     <a data-slide="4">Projects</a>
-    <a data-slide="5">Contact</a>
+    <a data-slide="5">Resume</a>
+    <a data-slide="6">Contact</a>
   </div>
 
   <!-- ============================================================
@@ -2429,7 +2654,7 @@
       }
       renderCursor();
 
-      const hoverTargets = document.querySelectorAll('a, button, .scroll-hint, .skill-card, .skill-pill, .exp-blueprint-panel, .card-drop-inner, .tech-badge, .contact-card, .filter-pill');
+      const hoverTargets = document.querySelectorAll('a, button, .scroll-hint, .skill-card, .skill-pill, .exp-blueprint-panel, .card-drop-inner, .tech-badge, .contact-card, .filter-pill, .about-stat-box, .resume-summary-item');
       hoverTargets.forEach(el => {
         el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
         el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
@@ -2471,7 +2696,7 @@
         let speed = isDeleting ? 40 : 80;
 
         if (!isDeleting && charIdx === currentRole.length) {
-          speed = 2200; // Pause at full word
+          speed = 2200;
           isDeleting = true;
         } else if (isDeleting && charIdx === 0) {
           isDeleting = false;
@@ -2577,47 +2802,6 @@
       }
 
       // ============================================================
-      // DYNAMIC MOSAIC GRID GENERATION FOR ABOUT SECTION
-      // ============================================================
-      const mosaicContainer = document.getElementById('mosaicGrid');
-      const rows = 6;
-      const cols = 8;
-
-      function createMosaicGrid() {
-        if (!mosaicContainer) return;
-        mosaicContainer.innerHTML = '';
-
-        const width = mosaicContainer.offsetWidth;
-        const height = mosaicContainer.offsetHeight;
-
-        const tileWidth = width / cols;
-        const tileHeight = height / rows;
-
-        for (let r = 0; r < rows; r++) {
-          for (let c = 0; c < cols; c++) {
-            const tile = document.createElement('div');
-            tile.classList.add('mosaic-tile');
-
-            tile.style.width = `${tileWidth}px`;
-            tile.style.height = `${tileHeight}px`;
-            tile.style.top = `${r * tileHeight}px`;
-            tile.style.left = `${c * tileWidth}px`;
-
-            tile.style.backgroundSize = `${width}px ${height}px`;
-            tile.style.backgroundPosition = `-${c * tileWidth}px -${r * tileHeight}px`;
-
-            const delay = (r + c) * 0.12;
-            tile.style.animationDelay = `${delay}s`;
-
-            mosaicContainer.appendChild(tile);
-          }
-        }
-      }
-
-      createMosaicGrid();
-      window.addEventListener('resize', createMosaicGrid);
-
-      // ============================================================
       // THREE.JS MOON SETUP
       // ============================================================
       const moonCanvas = document.getElementById('moon-canvas');
@@ -2719,8 +2903,8 @@
 
         const text1 = "2026, VANASHRI AMAR DESHPANDE";
         const text2 = "LOCATION: PUNE, MAHARASHTRA, INDIA";
-        const text3Plain = "TEL: +91 7795850462  ·  VNSHRI03@GMAIL.COM";
-        const text3HTML = 'TEL: <a href="tel:7795850462">+91 7795850462</a>  ·  <a href="mailto:vnshri03@gmail.com">VNSHRI03@GMAIL.COM</a>';
+        const text3Plain = "TEL: +91 7795850462  ·  Vanashri03@gmail.com";
+        const text3HTML = 'TEL: <a href="tel:7795850462">+91 7795850462</a>  ·  <a href="mailto:vanashrii03@gmail.com">Vanashri03@gmail.com</a>';
 
         l1.innerHTML = '<span class="cursor"></span>';
         l2.innerHTML = '';
@@ -2773,8 +2957,9 @@
         document.getElementById('home'),
         document.getElementById('about'),
         document.getElementById('skills'),
-        document.getElementById('experience'),
+        document.getElementById('education'),
         document.getElementById('projects'),
+        document.getElementById('resume'),
         document.getElementById('contact')
       ];
 
@@ -2935,7 +3120,7 @@
               }
             });
 
-            if (idx === 5 || (contactModal && contactModal.classList.contains('open'))) {
+            if (idx === 6 || (contactModal && contactModal.classList.contains('open'))) {
               moonCanvas.classList.add('visible');
               startTypewriter();
             } else {
